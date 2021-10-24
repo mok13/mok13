@@ -1,0 +1,14 @@
+// Agregamos deposito de 100€ a la categoria de alquiler 
+add_action( 'woocommerce_cart_calculate_fees', 'bbloomer_add_checkout_fee_for_gateway' ); 
+function bbloomer_add_checkout_fee_for_gateway() { 	
+if ( is_admin() ) return;     if ( ! is_checkout() ) return;     $category_ids = array(90);
+foreach ( WC()->cart->get_cart_contents() as $key => $values ) { 
+$terms = get_the_terms( $values['product_id'], 'product_cat' );  
+foreach ( $terms as $term ) { 
+if ( in_array( $term->term_id, $category_ids ) ){                
+WC()->cart->add_fee( 'Depósito', 100 ); 
+break; 				            
+}         
+  }     
+    } 
+      }
